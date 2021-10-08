@@ -1,8 +1,8 @@
 import Transformable
 
 class UI(Transformable):
-    def __init__(self,pos,layer=0):
-        super().__init__(pos,layer)
+    def __init__(self,pos, image,layer=0):
+        super().__init__(pos,image,layer)
 
     def moveTo(self, vec2Pos):
         #move to vec 2 pos *Overload

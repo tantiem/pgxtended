@@ -1,17 +1,21 @@
 import Transformable
 
-class Static(Transformable):
-    def __init__(self,pos,layer=0):
-        super().__init__(pos,layer)
+#Inherit from Transformable. Static
+#Overloads for a movement fashion regardless of a camera. 
 
-    def moveTo(self, vec2Pos):
+class Static(Transformable):
+    def __init__(self,pos, image,layer=0):
+        super().__init__(pos, image, layer)
+
+    def MoveTo(self, vec2Pos):
         #move to vec 2 pos *Overload
+        ##just call the cam move method
         pass
 	
-    def scaleTo(self, intScale):
+    def ScaleTo(self, intScale):
         #scale the object with a pygame transform *Overload
         pass
 
-    def rotateTo(self, floatRotation):
+    def RotateTo(self, floatRotation):
         #rotate object with pygame transform *Overload
         pass
