@@ -17,7 +17,7 @@ G_SPR_MAP = pygame.sprite.Group()
 G_SPR_UI = pygame.sprite.Group()
 
 #You can choose whatever location for your images, this will just make a nice dict from a folder
-images = [pygame.image.load(os.path.join("images", x)).convert_alpha() for x in os.listdir("images")]
+#images = [pygame.image.load(os.path.join("../images", x)).convert_alpha() for x in os.listdir("images")]
 
 #A basic camera operated with arrow keys/wasd
 class Camera:

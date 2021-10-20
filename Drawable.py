@@ -1,9 +1,9 @@
-import pgxObject
+import pgx.pgxObject
 import pygame
 
 #Drawable objects exist in space, and can be drawn with a draw function.
 
-class Drawable(pgOjbect, pygame.sprite.Sprite):
+class Drawable(pgxOjbect, pygame.sprite.Sprite):
 	def __init__(self, pos, image, layer=0):
 		super().__init__(pos)
 		self.localLayer = layer
@@ -14,3 +14,4 @@ class Drawable(pgOjbect, pygame.sprite.Sprite):
 		#draw based on local position and existence.
 		#Use dst argument on blitting. 
 		pass
+
