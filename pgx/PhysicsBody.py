@@ -1,5 +1,5 @@
-import Physical
+from . import Physical
 
-class PhysicsBody(Physical):
+class PhysicsBody(Physical.Physical):
     def __init__(self, pos, image,layer=0):
         super().__init__(pos,image,layer)

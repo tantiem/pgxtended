@@ -2,6 +2,7 @@
 import pygame
 import pygame.locals as locs
 import os.path
+from pgx import *
 
 pygame.init()
 
@@ -18,7 +19,7 @@ G_SPR_UI = pygame.sprite.Group()
 
 #You can choose whatever location for your images, this will just make a nice dict from a folder
 #images = [pygame.image.load(os.path.join("../images", x)).convert_alpha() for x in os.listdir("images")]
-
+img1 = pygame.image.load("giornoemoji.png").convert_alpha()
 #A basic camera operated with arrow keys/wasd
 class Camera:
 
@@ -29,6 +30,7 @@ class Camera:
         self.max_accel = max_accel
         self.acceleration = 1
         self.accel_rate = accel_rate
+
 
 obj_count = 0
 main_cam = Camera([0, 0], 10, 3, 1.1)
@@ -81,7 +83,7 @@ while running:
     '''While loop updates'''
     screen.fill((255, 255, 255))
     '''DrawStuff'''
-    
+
     '''Updating done'''
     G_SPR_MAP.draw(screen)
     G_SPR_UI.draw(screen)

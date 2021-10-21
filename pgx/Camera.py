@@ -1,6 +1,6 @@
-import Undrawable
+from . import Undrawable
 
-class Camera(Undrawable):
+class Camera(Undrawable.Undrawable):
     def __init__(self, pos):
         super().__init__(pos)
 

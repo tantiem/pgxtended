@@ -1,6 +1,6 @@
-import Drawable
+from . import Drawable
 
-class Transformable(Drawable):
+class Transformable(Drawable.Drawable):
 	def __init__(self,pos,image,layer=0):
 		super().__init__(pos, image, layer)
 		#_scale: (private) int: scale of the object. Usually 1. Modify only with methods, changing sprite transform can be wonky

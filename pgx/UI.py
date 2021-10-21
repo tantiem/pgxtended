@@ -1,6 +1,6 @@
-import Transformable
+from . import Transformable
 
-class UI(Transformable):
+class UI(Transformable.Transformable):
     def __init__(self,pos, image,layer=0):
         super().__init__(pos,image,layer)
 

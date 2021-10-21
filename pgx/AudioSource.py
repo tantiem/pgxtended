@@ -1,6 +1,6 @@
-import Undrawable
+from . import Undrawable
 
-class AudioSource(Undrawable):
+class AudioSource(Undrawable.Undrawable):
     def __init__(self, pos, isGlobal, sound, radius=10, baseVolume=1):
         super().__init(pos)
         #_global: (private) bool: Whether or not the sound plays regardless of distance to the focus

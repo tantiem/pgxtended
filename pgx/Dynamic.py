@@ -1,15 +1,14 @@
-import Transformable
+from . import Transformable
 
-#Inherit from Transformable. Static
-#Overloads for a movement fashion regardless of a camera. 
+#Inherit from Transformable. Moveable
+#Overloads for a movement fashion that includes both camera relative movement, and movement by input.
 
-class Static(Transformable):
-    def __init__(self,pos, image,layer=0):
+class Dynamic(Transformable.Transformable):
+    def __init__(self,pos,image,layer=0):
         super().__init__(pos, image, layer)
 
     def MoveTo(self, vec2Pos):
         #move to vec 2 pos *Overload
-        ##just call the cam move method
         pass
 	
     def ScaleTo(self, intScale):
