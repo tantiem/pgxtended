@@ -1,9 +1,9 @@
 import pygame
 
-class pgxObject:
+class pgxObject():
 	def __init__(self, pos_vector):
-		#the global position, in worldspace. This is the literal location of the object, regardless of cam view.
-		#the local position, inside of the view frustrum. Use this to draw the object
+		#gPosition: (public) Vector2: the global position, in worldspace. This is the literal location of the object, regardless of cam view.
+		#localPos: (public) Vector2: the local position, inside of the view frustrum. Use this to draw the object
 		self.gPosition = pygame.math.Vector2(pos_vector)
 		self.localPos = pygame.math.Vector2(pos_vector)
 
