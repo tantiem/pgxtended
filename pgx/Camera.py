@@ -5,6 +5,13 @@ from pygame import surface
 
 #local pos is always 0
 
+#The Camera object is used as a special version of a plain surface. It's main purpose is to be a drawing surface for rendering
+#the global game objects. You can stack multiple cameras to obtain functionality like split screen, UI, or whatever
+#other funky biz you want.
+
+#The global positions of all objects represent their rect in universe space and the position in universe space. Cameras
+#have the job of drawing certain parts of global universe space within it's view frustrum based on it's own global position.
+
 class Camera(Undrawable.Undrawable):
     def __init__(self, pos, viewport, origin, camSurface):
         super().__init__(pos)
@@ -64,3 +71,9 @@ class Camera(Undrawable.Undrawable):
             self.camSurface.fill((0,0,0))
         else:
             self.camSurface.fill(color)
+
+    def InRange(self, other):
+		#Returns whether or not the other object is in range of this camera based on camera view.
+        #self: A Camera object.
+        #other: A pgxObject
+        raise NotImplementedError()

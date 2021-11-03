@@ -6,23 +6,21 @@ from pygame import math
 class UI(Transformable.Transformable):
     def __init__(self,pos, image, group=None, layer=0):
         super().__init__(pos,image,group,layer)
-        self.gPosition = math.Vector2(0,0)
+        self.gPosition = pos
         #UI doesn't move with the camera
-        #Keep the localpos always low. Don't worry about global pos, it is unused.
     def MoveAbsolute(self, vec2Pos):
         #Inherited: self.localPos (Vector2) - Local position
-        self.localPos = vec2Pos
+        self.gPosition = vec2Pos
 
     def MoveRelative(self, vec2Change):
         #Inherited: self.localPos (Vector2) - Local position
-        self.localPos += vec2Change
+        self.gPosition += vec2Change
 
-    def CamAlign(self, cam):
-        #Should already be aligned
-        pass
+    def GetCamAlignPos(self, cam):
+        #Due to update (11/2/2021), all this needs to do is return the global position.
+        return self.gPosition
 
     def OnClick(self):
         #Any function this button has
         #Overload this method in your own needs.
         raise NotImplementedError()
-        pass

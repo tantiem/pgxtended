@@ -1,5 +1,4 @@
 from . import Drawable
-from pygame import math
 from pygame import rect
 
 
@@ -33,22 +32,7 @@ class Transformable(Drawable.Drawable):
 	def RotateTo(self, floatRotation):
 		#rotate object with pygame transform, absolutely
 		pass
-	
-	def CamAlign(self, cam):
-		#set position based on cam position
-		#This probably does not need to be overloaded
-
-		#Inherited: self.localPos (Vector2) - Local position
-		#cam: cam.gPosition (Vector2) - the camera's "global position"
-		#Should always be called after all movements are done.
-		#this objects local position found by assuming cameras global position
-		#is the origin.
-		
-		vec2NewPos = math.Vector2(self.gPosition.x - cam.gPosition.x, self.gPosition.y - cam.gPosition.y)
-		self.localPos = vec2NewPos
-		self.rect.update(vec2NewPos.x,vec2NewPos.y,self.rect.width,self.rect.height)
-		
-		pass
 
 	def Update(self, cam):
-		self.CamAlign(cam)
+		#Makes sure that the rect object is updated for collision purposes
+		self.rect.update(self.gPosition.x,self.gPosition.y,self.rect.width,self.rect.height)

@@ -4,19 +4,30 @@ import pygame
 import pygame.locals as locs
 import os.path
 from pgx import *
-
+#You always pygame init. These are just the rules lol. pygame init will call init for all common processes, you can call extra 
+#here if you want to.
 pygame.init()
+#End inits-----------------------------------------------------------------------
+#Begin global variables----------------------------------------------------------
 
-FPS = 60
+#Setting FPS is one way to keep track of delta time.
+FPS = 66
+#Make a clock object to keep track of time.
 FPSclock = pygame.time.Clock()
 
+
+#Set the window size variables.
 scrX = 1080
 scrY = 720
 
+#P_DISPLAY is what im naming a global constant surface object that we will use as the main display surface.
 P_DISPLAY = pygame.display.set_mode((scrX, scrY))
+#These other displays are made for our pgx Cameras.
 screen = pygame.Surface((scrX,scrY))
+screen2 = pygame.Surface((scrX,scrY))
 ui_screen = pygame.Surface((scrX,scrY))
 
+#These groups are helpful to keep track of masses of sprite objects.
 G_SPR_MAP = pygame.sprite.Group()
 G_SPR_UI = pygame.sprite.Group()
 
@@ -29,7 +40,8 @@ img1 = pygame.image.load("giornoemoji.png").convert_alpha()
 img2 = pygame.image.load("saucer.png").convert_alpha()
 
 
-
+#The only way to utilize pgx UI is by making a new object that inherits the UI, because of the need to make custom
+#functions per button. If I find a better way to do this I will change.
 class Button(UI.UI):
     def __init__(self,pos,img,group=None,layer=0):
         super().__init__(pos,img,group,layer)
@@ -50,7 +62,8 @@ newButton = Button(pygame.math.Vector2(0,scrY-square1.get_rect().height),square1
 
 #CAMERA CREATION
 #This is my main camera surface. Draw most of the game here.
-main_cam = Camera.Camera(pygame.math.Vector2(0,0),(scrX,scrY),(0,0),screen)
+main_cam = Camera.Camera(pygame.math.Vector2(0,0),(scrX/2,scrY),(0,0),screen)
+main_cam_2 = Camera.Camera(pygame.math.Vector2(0,0),(scrX/2,scrY),(scrX/2,0),screen2)
 #This is the UI camera. It is cleared with a transparent background. Is not affected by the zoom of the main cam.
 main_cam_ui = Camera.Camera(pygame.math.Vector2(0,0),(scrX,scrY),(0,0),ui_screen)
 camSensitivity = 8
@@ -62,6 +75,7 @@ obj2b = Static.Static(pygame.math.Vector2(200,0),square2,G_SPR_MAP)
 obj2c = Static.Static(pygame.math.Vector2(200,200),square2,G_SPR_MAP)
 obj2d = Static.Static(pygame.math.Vector2(0,200),square2,G_SPR_MAP)
 
+#Keep track of buttons how ever you want.
 buttons = [newButton]
 
 zoom = 0.5
@@ -72,7 +86,7 @@ while running:
     ALSO we are doing some neat camera movement right here specifically, acceleration and stuff so far.'''
     held_keys = pygame.key.get_pressed()
     mouse_pos = [pygame.mouse.get_pos()[0] + main_cam.gPosition.x, pygame.mouse.get_pos()[1] + main_cam.gPosition.y]
-
+    
     if held_keys[pygame.K_UP] or held_keys[pygame.K_DOWN] or held_keys[pygame.K_RIGHT] or held_keys[pygame.K_LEFT]:
 
         if held_keys[pygame.K_UP]:
@@ -116,16 +130,31 @@ while running:
             '''Mouse Movement'''
     '''While loop updates'''
     main_cam.SetCamZoom(zoom,P_DISPLAY)
+    main_cam_2.SetCamZoom(zoom,P_DISPLAY)
     main_cam_ui.SetCamZoom(1,P_DISPLAY)
+
+    main_cam_2.Clear((255,255,255))
     main_cam.Clear((255,255,255))
     main_cam_ui.Clear()
+
     '''DrawStuff'''
+    G_SPR_MAP.update(main_cam_2)
     G_SPR_MAP.update(main_cam)
     G_SPR_UI.update(main_cam_ui)
+
     '''Updating done'''
-    G_SPR_MAP.draw(main_cam.camSurface)
-    G_SPR_UI.draw(main_cam_ui.camSurface)
     
+    for spr in G_SPR_MAP:
+        spr.Draw(main_cam)
+        spr.Draw(main_cam_2)
+
+    for spr in G_SPR_UI:
+        spr.Draw(main_cam_ui)
+    '''G_SPR_MAP.draw(main_cam_2)
+    G_SPR_MAP.draw(main_cam)
+    G_SPR_UI.draw(main_cam_ui)'''
+    
+
     pygame.display.flip()
     FPSclock.tick(FPS)
 else:

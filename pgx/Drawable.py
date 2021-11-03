@@ -1,4 +1,5 @@
 from . import pgxObject
+
 import pygame
 
 #Drawable objects exist in space, and can be drawn with a draw function.
@@ -15,13 +16,13 @@ class Drawable(pgxObject.pgxObject, pygame.sprite.Sprite):
 		#if group is not none, it will be used by the sprite init to add object to a group automatically.
 		self.localLayer = layer
 		self.image = image
-		self.rect = image.get_rect(topleft=self.localPos)
+		self.rect = image.get_rect(topleft=self.gPosition)
 
-	def Draw(self,Surface_dst):
+	def Draw(self,cam):
 		#draw
 		#draw based on local position and existence.
 		#Use dst argument on blitting. 
-		Surface_dst.blit(self.image, self.localPos)
+		cam.camSurface.blit(self.image, self.GetCamAlignPos(cam))
 		pass
 
 	def Update(self,cam):
@@ -33,6 +34,8 @@ class Drawable(pgxObject.pgxObject, pygame.sprite.Sprite):
 		#the pgx Update() method. If you want to use sprite.update (like in a group)
 		#then you should pass the cam as args[0]
 		self.Update(args[0])
+
+	
 
 
 
