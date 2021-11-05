@@ -1,1 +1,2 @@
+"""A wrapper module for pygame that makes all aspects of drawing and viewing much, much easier by compiling the boilerplate you would have used into a library."""
 __all__ = ["pgxObject","Drawable","Undrawable","Transformable","Camera","AudioSource","Dynamic","Static","UI","Physical","PhysicsBody","Particle"]

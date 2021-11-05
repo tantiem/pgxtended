@@ -4,6 +4,8 @@ import pygame
 import pygame.locals as locs
 import os.path
 from pgx import *
+import pgx
+from pgx import pgxText
 #You always pygame init. These are just the rules lol. pygame init will call init for all common processes, you can call extra 
 #here if you want to.
 pygame.init()
@@ -11,7 +13,8 @@ pygame.init()
 #Begin global variables----------------------------------------------------------
 
 #Setting FPS is one way to keep track of delta time.
-FPS = 66
+#Don't set this to lower than the screen's refresh rate.
+FPS = 60
 #Make a clock object to keep track of time.
 FPSclock = pygame.time.Clock()
 
@@ -39,6 +42,10 @@ G_SPR_UI = pygame.sprite.Group()
 img1 = pygame.image.load("giornoemoji.png").convert_alpha()
 img2 = pygame.image.load("saucer.png").convert_alpha()
 
+font1 = pygame.font.SysFont("comic-sans",100)
+sometext = font1.render("Sug mah nootz",True,pygame.color.Color(50,50,50))
+
+pgxObject.pgxObject
 
 #The only way to utilize pgx UI is by making a new object that inherits the UI, because of the need to make custom
 #functions per button. If I find a better way to do this I will change.
@@ -74,6 +81,11 @@ obj2a = Static.Static(pygame.math.Vector2(0,0),square2,G_SPR_MAP)
 obj2b = Static.Static(pygame.math.Vector2(200,0),square2,G_SPR_MAP)
 obj2c = Static.Static(pygame.math.Vector2(200,200),square2,G_SPR_MAP)
 obj2d = Static.Static(pygame.math.Vector2(0,200),square2,G_SPR_MAP)
+textobject = pgxText.Text(pygame.math.Vector2(100,100),'papyrus',"AHHHHHHHhhHHHhHH!",100,G_SPR_MAP)
+
+
+#SOUNDS
+sound1 = AudioSource.AudioSource("Slash.wav",pygame.math.Vector2(0,0),True)
 
 #Keep track of buttons how ever you want.
 buttons = [newButton]
@@ -82,23 +94,21 @@ zoom = 0.5
 running = True
 while running:
     
-    '''Held down key input
-    ALSO we are doing some neat camera movement right here specifically, acceleration and stuff so far.'''
+
+    '''Get mouse positions'''
+    screen_mouse_pos = pygame.mouse.get_pos() #Use this for interacting with UI
+    global_mouse_pos_main_cam = main_cam.ScreenPosToGlobalPos(screen_mouse_pos) #Use this to interact with Non-UI Transformable
+
+    '''Held down key input'''
     held_keys = pygame.key.get_pressed()
-    mouse_pos = [pygame.mouse.get_pos()[0] + main_cam.gPosition.x, pygame.mouse.get_pos()[1] + main_cam.gPosition.y]
-    
-    if held_keys[pygame.K_UP] or held_keys[pygame.K_DOWN] or held_keys[pygame.K_RIGHT] or held_keys[pygame.K_LEFT]:
 
-        if held_keys[pygame.K_UP]:
-            main_cam.MoveCam(pygame.math.Vector2(0,-1) * camSensitivity)
-
-        if held_keys[pygame.K_DOWN]:
-            main_cam.MoveCam(pygame.math.Vector2(0,1) * camSensitivity)
-
-        if held_keys[pygame.K_LEFT]:
-            main_cam.MoveCam(pygame.math.Vector2(-1,0) * camSensitivity)
-
-        if held_keys[pygame.K_RIGHT]:
+    if held_keys[pygame.K_UP]:
+        main_cam.MoveCam(pygame.math.Vector2(0,-1) * camSensitivity)
+    if held_keys[pygame.K_DOWN]:
+        main_cam.MoveCam(pygame.math.Vector2(0,1) * camSensitivity)
+    if held_keys[pygame.K_LEFT]:
+        main_cam.MoveCam(pygame.math.Vector2(-1,0) * camSensitivity)
+    if held_keys[pygame.K_RIGHT]:
             main_cam.MoveCam(pygame.math.Vector2(1,0) * camSensitivity)
     
 
@@ -119,7 +129,8 @@ while running:
             running = False
         if event.type == locs.KEYDOWN:
             '''Key Presses'''
-            #if event.key == locs.K_w:
+            if event.key == locs.K_SPACE:
+                sound1.Play()
         if event.type == locs.MOUSEBUTTONDOWN:
             '''Mouse Cliques'''
             for button in buttons:
@@ -134,28 +145,27 @@ while running:
     main_cam_ui.SetCamZoom(1,P_DISPLAY)
 
     main_cam_2.Clear((255,255,255))
-    main_cam.Clear((255,255,255))
-    main_cam_ui.Clear()
+    main_cam.Clear((255,255,255)) #This means clear with a white background
+    main_cam_ui.Clear() #This means clear with a transparent background
 
-    '''DrawStuff'''
-    G_SPR_MAP.update(main_cam_2)
+    '''Update stuff'''
+    G_SPR_MAP.update(main_cam_2) #Updates any objects that want updating. Acts as the intro to an update frame.
     G_SPR_MAP.update(main_cam)
     G_SPR_UI.update(main_cam_ui)
 
     '''Updating done'''
     
+
+    '''DrawStuff'''
     for spr in G_SPR_MAP:
         spr.Draw(main_cam)
         spr.Draw(main_cam_2)
 
     for spr in G_SPR_UI:
         spr.Draw(main_cam_ui)
-    '''G_SPR_MAP.draw(main_cam_2)
-    G_SPR_MAP.draw(main_cam)
-    G_SPR_UI.draw(main_cam_ui)'''
-    
 
-    pygame.display.flip()
-    FPSclock.tick(FPS)
+    '''End of frame work.'''    
+    pygame.display.flip() #This transfers all the surfaces written onto the pygame.display surface onto the actual window.
+    FPSclock.tick(FPS) #Clocks the FPS counter.
 else:
     pygame.quit()

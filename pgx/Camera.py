@@ -1,3 +1,4 @@
+"""A module that controls all aspects of viewing the world using the pgx library."""
 from . import Undrawable
 from pygame import math
 from pygame import transform
@@ -13,12 +14,28 @@ from pygame import surface
 #have the job of drawing certain parts of global universe space within it's view frustrum based on it's own global position.
 
 class Camera(Undrawable.Undrawable):
+    """
+    PGX: A class to control how a user views any instantiated pgx object types.
+
+    pos:        Vector2 position of the camera
+    viewport:   Width and height of cam
+    origin:     Where on the display the topleft of this cameras surface will be displayed
+    camSurface: the surface to give to the camera initially
+    ...
+
+    Attributes
+    ----------
+    viewport:   (private) tuple: Describes the height and width of the viewport 
+    origin:     (private) tuple: Describes the origin of this camera
+    camSurface: (public) Surface: The surface that acts as this cameras view frustrum onto
+    zoom:       (private) Vector2: The current camera zoom multiplier.
+
+    Methods
+    -------
+    """
     def __init__(self, pos, viewport, origin, camSurface):
         super().__init__(pos)
-        #viewport: (private) tuple: Describes the height and width of the viewport 
-        #origin: (private) tuple: Describes the origin of this camera
-        #camSurface: (public) Surface: The surface that acts as this cameras view frustrum onto
-        #zoom: (private) Vector2: The current camera zoom multiplier.
+        
         self._viewport = viewport
         self._origin = origin
         self.camSurface = camSurface
@@ -33,13 +50,15 @@ class Camera(Undrawable.Undrawable):
         self.gPosition += relativePos
 
     def SetCamZoom(self, absoluteMultiplier, pygameDisplaySurface):
+        """
+        Transform scale the screen.
+        Used to set the scale factor of the camera. Will zoom in and out based on topleft.
+        If you want to zoom in on, say the center, simply move the camera at the same time as calling this;
+        i.e; zoom to 2x, move the camera half viewport length left and up.
+        """
         if(absoluteMultiplier < 0):
             print(f"Attempted to set negative zoom on {self}")
             return
-        #Transform scale the screen.
-        #Used to set the scale factor of the camera. Will zoom in and out based on topleft.
-        #If you want to zoom in on, say the center, simply move the camera at the same time as calling this;
-        #i.e; zoom to 2x, move the camera half viewport length left and up.
 
         #Set the new viewport size
         newViewportTuple = (int(self._viewport[0] * absoluteMultiplier),int(self._viewport[1] * absoluteMultiplier))
@@ -53,14 +72,12 @@ class Camera(Undrawable.Undrawable):
 
         pass
 
-    def GetLocalMousePos(self,globalMousePos):
-        #Problems arise when trying to click on zoomed objects represented by this camera.
-        #Therefore, it is necessary that when trying to click on a scaled object on a camera, to translate that spot due to zoom.
-        #The position is offset by a scale of the calculated zoom.
-        #So, to return the proper position, one must multiply the coordinates of the global mouse by the current zoom factor of this
-        #camera.
-        #Returns: A pygame.math.Vector2 object representing the x and y coordinates of the adjusted mouse in local space.
-        return math.Vector2(globalMousePos.x*self._zoom,globalMousePos.y*self._zoom)
+    def ScreenPosToGlobalPos(self,MousePos):
+        #Returns: A pygame.math.Vector2 object representing the x and y coordinates of the adjusted mouse in units of
+        #global position measurement.
+        #For example: If there is an object whose topleft = (0,0), moving the camera around and hovering mouse over
+        #this top left area will return a value of (0,0), as that is the converted screen position to global position.
+        return math.Vector2(MousePos[0] + (self.gPosition.x/self._zoom),MousePos[1] + (self.gPosition.y/self._zoom))
 
     def Clear(self,color=None):
         #Basically, if a color is set, it is a solid fill surface background color.
@@ -72,8 +89,3 @@ class Camera(Undrawable.Undrawable):
         else:
             self.camSurface.fill(color)
 
-    def InRange(self, other):
-		#Returns whether or not the other object is in range of this camera based on camera view.
-        #self: A Camera object.
-        #other: A pgxObject
-        raise NotImplementedError()
