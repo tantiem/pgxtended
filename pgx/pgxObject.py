@@ -14,8 +14,10 @@ class pgxObject():
 
 	Methods
 	-------
-	GetCamAlignPos(self, cam): Returns a position to draw an object at.
-	InCamRange(self, cam): Returns if object is in range of Camera cam
+	GetCamAlignPos(self, cam): cam(Camera);
+		Returns a position to draw an object at.
+	InCamRange(self, cam): cam(Camera);
+		Returns if object is in range of Camera cam
 
 	"""
 	def __init__(self, pos_vector):
@@ -32,8 +34,6 @@ class pgxObject():
 
 		Inherited:
 		cam: cam.gPosition (Vector2) - the camera's "global position"
-		this objects local position found by assuming cameras global position
-		is the origin.
 		"""
 		#UPDATED (11/2/2021):
 		#Does not set local pos anymore. Local pos no longer exists, rather, each camera will draw 

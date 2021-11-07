@@ -20,8 +20,8 @@ FPSclock = pygame.time.Clock()
 
 
 #Set the window size variables.
-scrX = 1080
-scrY = 720
+scrX = 1024
+scrY = 768
 
 #P_DISPLAY is what im naming a global constant surface object that we will use as the main display surface.
 P_DISPLAY = pygame.display.set_mode((scrX, scrY))
@@ -69,8 +69,8 @@ newButton = Button(pygame.math.Vector2(0,scrY-square1.get_rect().height),square1
 
 #CAMERA CREATION
 #This is my main camera surface. Draw most of the game here.
-main_cam = Camera.Camera(pygame.math.Vector2(0,0),(scrX/2,scrY),(0,0),screen)
-main_cam_2 = Camera.Camera(pygame.math.Vector2(0,0),(scrX/2,scrY),(scrX/2,0),screen2)
+main_cam = Camera.Camera(pygame.math.Vector2(0,0),(scrX/2,scrY-100),(0,0),screen)
+main_cam_2 = Camera.Camera(pygame.math.Vector2(0,0),(scrX/2,scrY-100),(scrX/2,0),screen2)
 #This is the UI camera. It is cleared with a transparent background. Is not affected by the zoom of the main cam.
 main_cam_ui = Camera.Camera(pygame.math.Vector2(0,0),(scrX,scrY),(0,0),ui_screen)
 camSensitivity = 8
@@ -81,7 +81,7 @@ obj2a = Static.Static(pygame.math.Vector2(0,0),square2,G_SPR_MAP)
 obj2b = Static.Static(pygame.math.Vector2(200,0),square2,G_SPR_MAP)
 obj2c = Static.Static(pygame.math.Vector2(200,200),square2,G_SPR_MAP)
 obj2d = Static.Static(pygame.math.Vector2(0,200),square2,G_SPR_MAP)
-textobject = pgxText.Text(pygame.math.Vector2(100,100),'papyrus',"AHHHHHHHhhHHHhHH!",100,G_SPR_MAP)
+textobject = pgxText.Text(pygame.math.Vector2(100,100),'verdana',"AHHHHHHHhhHHHhHH!",100,G_SPR_MAP)
 
 
 #SOUNDS
@@ -90,7 +90,7 @@ sound1 = AudioSource.AudioSource("Slash.wav",pygame.math.Vector2(0,0),True)
 #Keep track of buttons how ever you want.
 buttons = [newButton]
 
-zoom = 0.5
+zoom = 1
 running = True
 while running:
     
