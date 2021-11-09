@@ -4,7 +4,7 @@ Inherits x y
 Short desc
 
 input params desc (if needed)
-constructorParam: desc
+**constructorParam**: desc
 ...
 
 Attributes

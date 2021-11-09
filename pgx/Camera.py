@@ -19,10 +19,14 @@ class Camera(Undrawable.Undrawable):
 
     PGX: A class to control how a user views any instantiated pgx object types.
 
-    pos:        Vector2 position of the camera
-    viewport:   Width and height of cam
-    origin:     Where on the display the topleft of this cameras surface will be displayed
-    camSurface: the surface to give to the camera initially
+    pos:
+        Vector2 position of the camera
+    viewport:
+        Width and height of cam
+    origin:
+        Where on the display the topleft of this cameras surface will be displayed
+    camSurface:
+        the surface to give to the camera initially
     ...
 
     Attributes
