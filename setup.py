@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name='pgx',
-   version='1.0',
+   version='1.1',
    license='MIT',
    description='A wrapper for pygame which is a wrapper for SDL2. Makes it a lot easier to draw stuff.',
    author='Levi Reynolds',
