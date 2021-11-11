@@ -1,5 +1,5 @@
 ## class AudioSource(Undrawable.Undrawable):
-    
+###     def __init__(self, filename, pos, isGlobal, radius=10, baseVolume=1):
     Inherits: Undrawable
 
     An undrawable pgxObject that tracks the location of a sound and it's properties.
@@ -21,7 +21,6 @@
     Play(); 
         plays the _sound file.
     
-###     def __init__(self, filename, pos, isGlobal, radius=10, baseVolume=1):
 ###     def PlayOnce(self):
         
         Plays contained sound file one time.
@@ -32,10 +31,14 @@
         
 A module that controls all aspects of viewing the world using the pgx library.
 ## class Camera(Undrawable.Undrawable):
-    
+The pgx camera is incredibly versatile. Given any group of pgx based objects, it can draw them if told to. Multiple cameras can draw the same objects, originating at different positions. This allows for something like split screens and combined UIs to be not only possible, but much easier.
+Each camera acts as a drawing surface. While not necessarily controllimg the objects they view themselves, the methods it contains allow for easy translation between the screen and the global positioned object world. 
+Cameras can move, zoom, and translate viewport space to world space.
+###     def __init__(self, pos, viewport, origin, camSurface):
+
     Inherits
 
-##     PGX: A class to control how a user views any instantiated pgx object types.
+    PGX: A class to control how a user views any instantiated pgx object types.
 
     pos:
         Vector2 position of the camera
@@ -73,7 +76,6 @@ A module that controls all aspects of viewing the world using the pgx library.
         Returns: A pygame.math.Vector2 object representing the x and y coordinates of the adjusted mouse in units of
         global position measurement.
     
-###     def __init__(self, pos, viewport, origin, camSurface):
 ###     def SetCamPos(self, absolutePos):
         
         Sets the cameras global position, absolutely
@@ -115,10 +117,10 @@ A module that controls all aspects of viewing the world using the pgx library.
         colorKey:   pygame.color.Color object or triple set (,,)
         
 ## class Drawable(pgxObject.pgxObject, pygame.sprite.Sprite):
-	
+### 	def __init__(self, pos, image, group=None, layer=0):
 	Inherits pgxObject, pygame.Sprite
 
-## 	The most base class for all drawn objects. Controls drawing and updating.
+ 	The most base class for all drawn objects. Controls drawing and updating.
 	...
 
 	Attributes
@@ -141,7 +143,6 @@ A module that controls all aspects of viewing the world using the pgx library.
 	Draw(cam):a cam(pgx.Camera);
 		draws image to camera surface
 	
-### 	def __init__(self, pos, image, group=None, layer=0):
 ### 	def Draw(self,cam):
 		
 		Draws an image onto the cam.camSurface using the blit method.
@@ -159,7 +160,7 @@ A module that controls all aspects of viewing the world using the pgx library.
 		
 		This is the method inherited from pygame.sprite.Sprite()
 
-### 		it does nothing by default, so I just made it be a wrapper for 
+		it does nothing by default, so I just made it be a wrapper for 
 		the pgx Update() method. If you want to use sprite.update (like in a group)
 		then you should pass the cam as args[0]
 		
@@ -177,7 +178,7 @@ A module that controls all aspects of viewing the world using the pgx library.
 	
 	Inherits Drawable
 
-## 	The main parent class to all functional subtype drawn objects. Contains functionality for scaling, rotating, and moving
+ 	The main parent class to all functional subtype drawn objects. Contains functionality for scaling, rotating, and moving
 	drawn objects.
 
 	pos:	s.e;
@@ -250,12 +251,12 @@ A module that controls all aspects of viewing the world using the pgx library.
 		Returns the value of the protected scale member
 ### 	def GetBaseSize(self):
 		Returns the value of the protected base size member
-## #Inherit this class to make your own buttons with overridden OnClick methods.
 ## class UI(Transformable.Transformable):
+#### Inherit this class to make your own buttons with overridden OnClick methods.
     
     Inherits Transformable
 
-##     A purely abstract subclass of Transformable. Inherit and overload  for your needs; maintains properties of other pgxObjects.
+    A purely abstract subclass of Transformable. Inherit and overload  for your needs; maintains properties of other pgxObjects.
 
     pos:    Position of object in global space.
     image:  s.e;
@@ -316,6 +317,7 @@ A wrapper module for pygame that makes all aspects of drawing and viewing much, 
         cam: A Camera
 		
 ## class Text(Transformable.Transformable):
+###     def __init__(self,pos,fontName,text,size,group = None, layer = 0,color=color.Color(1,1,1),antiAlias=False,bold=False,italic=False):
     
     Store pygame font rendering information and functionality
     ...
@@ -324,22 +326,23 @@ A wrapper module for pygame that makes all aspects of drawing and viewing much, 
 
     pos (Vector2): Vector2 topleft position
 
-###     fontName (str, union sys.path): name of the font to look for. Will look for a custom font first, then default to sys file, then to pygame default.
+    fontName (str, union sys.path): name of the font to look for. Will look for a custom font first, then default to sys file, then to pygame default.
+    
     text (str): text you want it to display
 
     size (int): size in pixels, the height of the letters.
 
     group (pygame.sprite.Group): (OPTIONAL) a python sprite group.
 
-###     layer (int): (OPTIONAL) default = 0. Order to draw.
+    layer (int): (OPTIONAL) default = 0. Order to draw.
 
-###     color (pygame.color.Color): (OPTIONAL) default = black.
+    color (pygame.color.Color): (OPTIONAL) default = black.
 
-###     antiAlias (bool): (OPTIONAL) default = false. Anti alias text rendering.
+    antiAlias (bool): (OPTIONAL) default = false. Anti alias text rendering.
 
-###     bold (bool): (OPTIONAL) default = false. s.e;
+    bold (bool): (OPTIONAL) default = false. s.e;
     
-###     italic (bool): (OPTIONAL) default = false. s.e;
+    italic (bool): (OPTIONAL) default = false. s.e;
 
     Attributes
     ----------
@@ -350,9 +353,7 @@ A wrapper module for pygame that makes all aspects of drawing and viewing much, 
     -------
     ChangeText(text, antiAlias,color): text(string) antiAlias(bool) color(pygame.color.Color);
         Changes text string on text object.
-    
-###     def __init__(self,pos,fontName,text,size,group = None, layer = 0,color=color.Color(1,1,1),antiAlias=False,bold=False,italic=False):
-###                 print(f"Couldn't find '{fontName}' as a custom font directory or a system font. Reverting to pygame default for {self.__str__}...")
+
 ###     def ChangeText(self,text,antiAlias=False,color=color.Color(1,1,1)):
         
         Re-Render the font with different text.
