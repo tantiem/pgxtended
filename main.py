@@ -4,6 +4,7 @@ import pygame
 import pygame.locals as locs
 from pgx import *
 from pgx import pgxText
+from pgx import Input
 #You always pygame init. These are just the rules lol. pygame init will call init for all common processes, you can call extra 
 #here if you want to.
 pygame.init()
@@ -15,6 +16,7 @@ pygame.init()
 FPS = 60
 #Make a clock object to keep track of time.
 FPSclock = pygame.time.Clock()
+inputManager = Input.InputManager()
 
 
 #Set the window size variables.
@@ -93,51 +95,48 @@ zoom = 1
 running = True
 while running:
     
-
+    '''Refreshes the InputManager for this frame'''
+    inputManager.Refresh()
+    
     '''Get mouse positions'''
-    screen_mouse_pos = pygame.mouse.get_pos() #Use this for interacting with UI
+    screen_mouse_pos = inputManager.GetMousePos() #Use this for interacting with UI
     global_mouse_pos_main_cam = main_cam.ScreenPosToGlobalPos(screen_mouse_pos) #Use this to interact with Non-UI Transformable
 
     '''Held down key input'''
-    held_keys = pygame.key.get_pressed()
 
-    if held_keys[pygame.K_UP]:
+    if inputManager.GetKeyHeld(pygame.K_UP):
         main_cam.MoveCam(pygame.math.Vector2(0,-1) * camSensitivity)
-    if held_keys[pygame.K_DOWN]:
+    elif inputManager.GetKeyHeld(pygame.K_DOWN):
         main_cam.MoveCam(pygame.math.Vector2(0,1) * camSensitivity)
-    if held_keys[pygame.K_LEFT]:
+    if inputManager.GetKeyHeld(pygame.K_LEFT):
         main_cam.MoveCam(pygame.math.Vector2(-1,0) * camSensitivity)
-    if held_keys[pygame.K_RIGHT]:
-            main_cam.MoveCam(pygame.math.Vector2(1,0) * camSensitivity)
+    elif inputManager.GetKeyHeld(pygame.K_RIGHT):
+        main_cam.MoveCam(pygame.math.Vector2(1,0) * camSensitivity)
     
 
     '''End Camera Movement'''
     '''Start input'''
     plSpeed = 5
-    if held_keys[pygame.K_w]:
+    if inputManager.GetKeyHeld(pygame.K_w):
         obj1.MoveRelative(pygame.math.Vector2(0,-plSpeed))
-    if held_keys[pygame.K_s]:
+    if inputManager.GetKeyHeld(pygame.K_s):
         obj1.MoveRelative(pygame.math.Vector2(0,plSpeed))
-    if held_keys[pygame.K_a]:
+    if inputManager.GetKeyHeld(pygame.K_a):
         obj1.MoveRelative(pygame.math.Vector2(-plSpeed,0))
-    if held_keys[pygame.K_d]:
+    if inputManager.GetKeyHeld(pygame.K_d):
         obj1.MoveRelative(pygame.math.Vector2(plSpeed,0))
 
-    for event in pygame.event.get():
-        if event.type == locs.QUIT:
-            running = False
-        if event.type == locs.KEYDOWN:
-            '''Key Presses'''
-            if event.key == locs.K_SPACE:
-                sound1.Play()
-        if event.type == locs.MOUSEBUTTONDOWN:
-            '''Mouse Cliques'''
-            for button in buttons:
-                if button.rect.collidepoint(pygame.mouse.get_pos()):
-                    button.OnClick()
-        if event.type == locs.MOUSEMOTION:
-            pass
-            '''Mouse Movement'''
+    if inputManager.EventActive(locs.QUIT):
+        running = False
+    if inputManager.GetKeyPressed(locs.K_SPACE):
+        sound1.PlayOnce()
+    if inputManager.GetMouseClicked():
+        for button in buttons:
+            if button.rect.collidepoint(screen_mouse_pos):
+                button.OnClick()
+    if inputManager.GetMouseMoved():
+        '''If mouse moves stuff'''
+
     '''While loop updates'''
     main_cam.SetCamZoom(zoom,P_DISPLAY)
     main_cam_2.SetCamZoom(zoom,P_DISPLAY)
