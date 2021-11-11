@@ -2,9 +2,7 @@
 #'Engine' boilerplate
 import pygame
 import pygame.locals as locs
-import os.path
 from pgx import *
-import pgx
 from pgx import pgxText
 #You always pygame init. These are just the rules lol. pygame init will call init for all common processes, you can call extra 
 #here if you want to.
@@ -84,6 +82,7 @@ obj2d = Static.Static(pygame.math.Vector2(0,200),square2,G_SPR_MAP)
 textobject = pgxText.Text(pygame.math.Vector2(100,100),'verdana',"AHHHHHHHhhHHHhHH!",100,G_SPR_MAP)
 
 
+
 #SOUNDS
 sound1 = AudioSource.AudioSource("Slash.wav",pygame.math.Vector2(0,0),True)
 
@@ -146,7 +145,7 @@ while running:
 
     main_cam_2.Clear((255,255,255))
     main_cam.Clear((255,255,255)) #This means clear with a white background
-    main_cam_ui.Clear() #This means clear with a transparent background
+    main_cam_ui.Clear((1,1,1), (1,1,1)) #This means clear with a transparent background
 
     '''Update stuff'''
     G_SPR_MAP.update(main_cam_2) #Updates any objects that want updating. Acts as the intro to an update frame.
