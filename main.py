@@ -31,7 +31,7 @@ screen2 = pygame.Surface((scrX,scrY))
 ui_screen = pygame.Surface((scrX,scrY))
 
 #These groups are helpful to keep track of masses of sprite objects.
-G_SPR_MAP = pygame.sprite.Group()
+G_SPR_MAP = pgxObject.PgxGroup()
 G_SPR_UI = pygame.sprite.Group()
 
 #You can choose whatever location for your images, this will just make a nice list from a folder
@@ -76,11 +76,11 @@ main_cam_ui = Camera.Camera(pygame.math.Vector2(0,0),(scrX,scrY),(0,0),ui_screen
 camSensitivity = 8
 
 #OBJ CREATION
-obj1 = Dynamic.Dynamic(pygame.math.Vector2(100,100),img2,G_SPR_MAP)
-obj2a = Static.Static(pygame.math.Vector2(0,0),square2,G_SPR_MAP)
-obj2b = Static.Static(pygame.math.Vector2(200,0),square2,G_SPR_MAP)
-obj2c = Static.Static(pygame.math.Vector2(200,200),square2,G_SPR_MAP)
-obj2d = Static.Static(pygame.math.Vector2(0,200),square2,G_SPR_MAP)
+obj1 = Dynamic.Dynamic(pygame.math.Vector2(100,100),img2,G_SPR_MAP,5)
+obj2a = Static.Static(pygame.math.Vector2(0,0),square2,G_SPR_MAP,4)
+obj2b = Static.Static(pygame.math.Vector2(200,0),square2,G_SPR_MAP,3)
+obj2c = Static.Static(pygame.math.Vector2(200,200),square2,G_SPR_MAP,2)
+obj2d = Static.Static(pygame.math.Vector2(0,200),square2,G_SPR_MAP,1)
 textobject = pgxText.Text(pygame.math.Vector2(100,100),'verdana',"AHHHHHHHhhHHHhHH!",100,G_SPR_MAP)
 
 
@@ -155,9 +155,8 @@ while running:
     
 
     '''DrawStuff'''
-    for spr in G_SPR_MAP:
-        spr.Draw(main_cam)
-        spr.Draw(main_cam_2)
+    G_SPR_MAP.draw(main_cam)
+    G_SPR_MAP.draw(main_cam_2)
 
     for spr in G_SPR_UI:
         spr.Draw(main_cam_ui)

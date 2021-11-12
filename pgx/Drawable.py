@@ -1,3 +1,4 @@
+from pygame import sprite
 from . import pgxObject
 
 import pygame
@@ -33,7 +34,11 @@ class Drawable(pgxObject.pgxObject, pygame.sprite.Sprite):
 	"""
 	def __init__(self, pos, image, group=None, layer=0):
 		super().__init__(pos)
-		pygame.sprite.Sprite.__init__(self,group)
+		if group is not None:
+			pygame.sprite.Sprite.__init__(self,group)
+		else:
+			pygame.sprite.Sprite.__init__(self)
+		
 		
 		self.localLayer = layer
 		self.image = image
@@ -70,6 +75,8 @@ class Drawable(pgxObject.pgxObject, pygame.sprite.Sprite):
 		"""
 		
 		self.Update(args[0])
+
+
 
 	
 

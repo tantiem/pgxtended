@@ -50,3 +50,18 @@ class pgxObject():
         cam: A Camera
 		"""
 		raise NotImplementedError()
+
+
+class PgxGroup(pygame.sprite.LayeredUpdates):
+	def __init__(self, *sprites, **kwargs) -> None:
+		super().__init__(*sprites, **kwargs)
+
+	def draw(self, cam):
+		for sprite in self.sprites():
+			sprite.Draw(cam)
+
+	def add(self, *sprites, **kwargs):
+		return super().add(*sprites, **kwargs)
+		
+		
+
