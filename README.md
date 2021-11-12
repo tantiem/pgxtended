@@ -4,3 +4,7 @@ Functionality covered is mostly in the form of things like 'cameras' and prebuil
 Best way to use this library is to just download the repo for your own use. Look at the source code, change it if needed, look at if confused.
 
 [Documentation](https://github.com/tantiem/pgxtended/blob/main/doc/info.md) (Currently not amazing)
+
+
+Install with pip:
+`pip install git+https://github.com/tantiem/pgxtended`
